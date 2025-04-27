@@ -77,6 +77,17 @@
 
 
 
+    //Admin
+    $stmt = $db->query("SELECT * FROM d_quizmaster");
+    $admin_totalquiz = $stmt->rowCount();
+
+    $stmt = $db->query("SELECT * FROM d_quizstudents");
+    $admin_totalstudent = $stmt->rowCount();
+
+    $stmt = $db->query("SELECT distinct(sq_student) FROM d_quizstudentquestions");
+    $admin_totalenter = $stmt->rowCount();
+
+
 ?>
 
 <!-- Page Content-->
@@ -118,7 +129,7 @@
                         <div class="row">
                             <div class="col-8 align-self-center">
                                 <div class="">
-                                    <h4 class="mt-0 header-title">Toplam Katılım</h4>
+                                    <h4 class="mt-0 header-title">Toplam Katılım Sayısı</h4>
                                     <h2 class="mt-0 font-weight-bold text-dark"><?= $studentCount ?></h2>
                                 </div>
                             </div><!--end col-->
@@ -126,6 +137,54 @@
                     </div><!--end card-body-->
                 </div><!--end card-->
             </div><!--end col-->
+
+
+            <!-- Admin -->
+            <?php if($_SESSION["user"]["yetki"] == "admin"): ?>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body mb-0">
+                        <div class="row">
+                            <div class="col-8 align-self-center">
+                                <div class="">
+                                    <h4 class="mt-0 header-title">[ADMIN] Toplam Deneme Sayısı</h4>
+                                    <h2 class="mt-0 font-weight-bold text-dark"><?= $admin_totalquiz ?></h2>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!--end col-->
+
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body mb-0">
+                        <div class="row">
+                            <div class="col-8 align-self-center">
+                                <div class="">
+                                    <h4 class="mt-0 header-title">[ADMIN] Toplam Öğrenci Sayısı</h4>
+                                    <h2 class="mt-0 font-weight-bold text-dark"><?= $admin_totalstudent ?></h2>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!--end col-->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body mb-0">
+                        <div class="row">
+                            <div class="col-8 align-self-center">
+                                <div class="">
+                                    <h4 class="mt-0 header-title">[ADMIN] Toplam Katılım Sayısı</h4>
+                                    <h2 class="mt-0 font-weight-bold text-dark"><?= $admin_totalenter ?></h2>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!--end col-->
+            <?php endif; ?>
         </div><!--end row-->
 
 

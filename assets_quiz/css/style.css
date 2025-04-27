@@ -124,8 +124,8 @@ iframe {
 }
 .form_items label.active {
   color: #ffffff;
-  background: -webkit-gradient(linear, left top, right top, from(#f95634), to(#fba220));
-  background: linear-gradient(to right, #f95634, #fba220);
+  background: -webkit-gradient(linear, left top, right top, from(#45aaf2), to(#2d98da));
+  background: linear-gradient(to right, #45aaf2, #2d98da);
 }
 .form_items label.active:before {
   display: block;

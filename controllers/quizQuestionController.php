@@ -12,7 +12,7 @@ if(!isset($method)){
 
 function generateUniqueUID($pdo) {
     do {
-        $uid = substr(bin2hex(random_bytes(4)), 0, length: 8);
+        $uid = substr(bin2hex(random_bytes(4)), 0, 8);
         $stmt = $pdo->prepare("SELECT COUNT(*) FROM d_quizmaster WHERE quiz_hash = ?");
         $stmt->execute([$uid]);
         $count = $stmt->fetchColumn();

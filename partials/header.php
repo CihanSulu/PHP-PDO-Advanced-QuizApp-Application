@@ -158,6 +158,13 @@
                                     <li><a href="soru-olustur">Soru Oluştur</a></li>
                                 </ul>
                             </li>
+                            <li>
+                                <a href="javascript: void(0);"><i class="mdi mdi-poll"></i><span>Sistem Analizi</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li><a href="tum-denemeler">Oluşturulan Denemeler</a></li>
+                                    <li><a href="tum-ogrenciler">Öğrenciler</a></li>
+                                </ul>
+                            </li>
                         <?php endif; ?>
                              
                         <li class="menu-title">Kullanıcı Bilgisi</li>

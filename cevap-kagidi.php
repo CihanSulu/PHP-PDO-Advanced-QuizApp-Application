@@ -26,8 +26,10 @@ if (!isset($_GET["id"])) {
         }
         else{
             if($QuizMaster["quiz_user"] != $_SESSION["user"]["id"]){
-                header("Location: index");
-                exit;
+                if($_SESSION["user"]["yetki"] != "admin"){
+                    header("Location: index");
+                    exit;
+                }
             }
         }
     }
