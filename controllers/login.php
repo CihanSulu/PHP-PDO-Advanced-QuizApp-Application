@@ -8,7 +8,7 @@ $password = @$_POST["password"];
 $pass = md5(sha1(md5(sha1(sha1($password)))));
 
 
-$query = $db->query("SELECT * FROM kullanicilar WHERE kadi = '{$username}' AND parola = '{$pass}'")->fetch(PDO::FETCH_ASSOC);
+$query = $db->query("SELECT * FROM kullanicilar WHERE (kadi = '{$username}' OR email = '{$username}') AND parola = '{$pass}'")->fetch(PDO::FETCH_ASSOC);
 if ( $query ){
     if ($query["yetki"] != "admin" && stripos($query["yetki"], "VIP") === false) {
         array_push($messages,array(

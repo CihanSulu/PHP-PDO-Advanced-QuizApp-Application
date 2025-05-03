@@ -33,7 +33,7 @@ if(isset($_GET["id"])) {
                         <p class="text-muted mb-4 font-13">Sistemi kullanan üyeler tarafından oluşturulan tüm deneme sınavlarını görüntülyebilirsin.</p>
 
                         <?php if($sonuc): ?>
-                        <a href="deneme-sonuclari" type="button" class="btn btn-primary btn-square waves-effect waves-light mb-4">Geri Dön</a>
+                        <a href="tum-denemeler" type="button" class="btn btn-primary btn-square waves-effect waves-light mb-4">Geri Dön</a>
                         <table id="datatable" class="table table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
@@ -43,7 +43,9 @@ if(isset($_GET["id"])) {
                                     <th>Öğrenci IP Adresi</th>
                                     <th>Doğru Sayısı</th>
                                     <th>Yanlış Sayısı</th>
+                                    <th>Boş Sayısı</th>
                                     <th>Puanı</th>
+                                    <th>Puanı (3Y-1D)</th>
                                     <th>Görüntüle</th>
                                 </tr>
                             </thead>
@@ -62,8 +64,9 @@ if(isset($_GET["id"])) {
                                     s.student_name,
                                     s.student_surname,
                                     s.student_ip,
-                                    SUM(CASE WHEN q.sq_true = 1 THEN 1 ELSE 0 END) as correct_count,
-                                    SUM(CASE WHEN q.sq_true = 0 THEN 1 ELSE 0 END) as wrong_count
+                                    SUM(CASE WHEN q.sq_true = 1 AND q.sq_answer != 5 THEN 1 ELSE 0 END) AS correct_count,
+                                    SUM(CASE WHEN q.sq_true = 0 AND q.sq_answer != 5 THEN 1 ELSE 0 END) AS wrong_count,
+                                    SUM(CASE WHEN q.sq_true = 0 AND q.sq_answer = 5 THEN 1 ELSE 0 END) AS wrong_null
                                 FROM d_quizstudents s
                                 LEFT JOIN d_quizstudentquestions q ON s.student_id = q.sq_student AND q.sq_quiz = $quizId
                                 WHERE s.student_quiz = $quizId
@@ -75,8 +78,14 @@ if(isset($_GET["id"])) {
                                 <?php if ($query->rowCount()): ?>
                                     <?php foreach ($query as $row): ?>
                                         <?php
+                                            $stmt = $db->query("SELECT * FROM d_quizquestions WHERE qq_quizid = '{$quizId}' ");
+                                            $totalQuestions = $stmt->rowCount();
                                             $correct = (int)$row["correct_count"];
-                                            $score = round(($correct / $totalQuestions) * 100);
+                                            $wrong = (int)$row["wrong_count"];
+
+                                            $normalScore = round(($correct / $totalQuestions) * 100);
+                                            $adjustedCorrect = max(0, $correct - floor($wrong / 3)); 
+                                            $adjustedScore = round(($adjustedCorrect / $totalQuestions) * 100);
                                         ?>
                                         <tr>
                                             <td><?= $row["student_name"] ?></td>
@@ -84,7 +93,9 @@ if(isset($_GET["id"])) {
                                             <td><?= $row["student_ip"] ?></td>
                                             <td class="text-success"><?= $correct ?></td>
                                             <td class="text-danger"><?= $row["wrong_count"] ?></td>
-                                            <td class="text-primary"><?=  $score ?></td>
+                                            <td class="text-warning"><?= $row["wrong_null"] ?></td>
+                                            <td class="text-primary"><?=  $normalScore ?></td>
+                                            <td class="text-primary"><?=  $adjustedScore ?></td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="cevap-kagidi?id=<?= $row["student_id"] ?>" title="Soru Ayarları" type="button" class="btn btn-outline-secondary btn-sm">

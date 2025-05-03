@@ -25,16 +25,30 @@ if($location == ""){
     //Delete
     if($method == "del"){
         if(isset($_GET["id"])){
-            $query = $db->prepare("DELETE FROM d_quizmaster WHERE quiz_id = :id");
-            $delete = $query->execute(array(
-                'id' => $_GET["id"]
-            ));
 
-            $query = $db->prepare("DELETE FROM d_quizquestions WHERE qq_quizid = :id");
-            $delete = $query->execute(array(
-                'id' => $_GET["id"]
-            ));
-
+            $getMaster = $db->query("SELECT * FROM d_quizmaster WHERE quiz_id = '{$_GET["id"]}'")->fetch(PDO::FETCH_ASSOC);
+            if($getMaster && $getMaster["quiz_user"] == $_SESSION["user"]["id"]){
+                $query = $db->prepare("DELETE FROM d_quizmaster WHERE quiz_id = :id");
+                $delete = $query->execute(array(
+                    'id' => $_GET["id"]
+                ));
+    
+                $query = $db->prepare("DELETE FROM d_quizquestions WHERE qq_quizid = :id");
+                $delete = $query->execute(array(
+                    'id' => $_GET["id"]
+                ));
+    
+                $query = $db->prepare("DELETE FROM d_quizstudentquestions WHERE sq_quiz = :id");
+                $delete = $query->execute(array(
+                    'id' => $_GET["id"]
+                ));
+    
+                $query = $db->prepare("DELETE FROM d_quizstudents WHERE student_quiz = :id");
+                $delete = $query->execute(array(
+                    'id' => $_GET["id"]
+                ));
+            }
+            
             array_push($messages,array(
                 "type"=> "success",
                 "title"=> "Başarılı",

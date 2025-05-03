@@ -97,7 +97,62 @@ body {
   box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
   border-radius: 5px;
 }
+.closebtn{position: absolute;right: 20px;top: 20px;cursor: pointer;z-index: 9999999999999999 !important;}
 
+.popup{
+  position: fixed;
+  left:0px;
+  top:0px;
+  background-color: rgba(0,0,0,0.9);
+  z-index: 9999999999;
+  height: 100vh;
+}
+.popup .pagination li{font-size: 16px;}
+.popup-category{
+  list-style-type: none;
+  padding: 0px;
+}
+.popup-category li{
+  display: inline-flex;
+  margin-right: 10px;
+}
+.popup-category li button:focus{
+  color:#fff !important;
+  background-color: #1ecab8 !important;
+  border: 1px solid #1bb4a4;
+  box-shadow: 0 2px 6px 0 rgba(30, 202, 184, 0.5) !important;
+}
+.questionNumber{
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background-color: #007ee5;
+  color:#fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding:5px;
+  font-weight: bold;
+  border-radius: 10px;
+  opacity: 0.5;
+}
+.questionsContent img{
+  max-height: 250px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.questionsContent .selected::after{
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  background-color: #1ecab8;
+  content: '🗸 Seçildi';
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px 0 rgba(236, 64, 143, 0.5);
+  color:#fff;
+}
 .page-wrapper-img {
   background-image: url("../images/overlay.png");
   background-size: cover;

@@ -100,12 +100,72 @@ if($location == ""){
     
     //Insert
     if($method == "ins"){
-        array_push($messages,array(
-            "type"=> "success",
-            "title"=> "Başarılı",
-            "message"=> "Deneme başarıyla güncellendi."
-        ));
-        $location = "../denemelerim";
+        $questions = $_POST["questions"];
+        $quizID = $_POST["masterID"];
+        $error = false;
+
+        $quizMaster = $db->query("SELECT * FROM d_quizmaster WHERE quiz_user = '{$_SESSION["user"]["id"]}'")->fetch(PDO::FETCH_ASSOC);
+        if ( !$quizMaster ){
+            array_push($messages,array(
+                "type"=> "error",
+                "title"=> "Hata",
+                "message"=> "İlgili Deneme Bulunamadı."
+            ));
+            $location = "../deneme-duzenle?id=".$quizID;
+        }
+        else{
+            if ($quizMaster["quiz_questionqty"] != count($questions) || in_array("", $questions)) {
+                array_push($messages,array(
+                    "type"=> "error",
+                    "title"=> "Hata",
+                    "message"=> "Denemede eksik soru bulunmaktadır. Lütfen tüm soruları tamamlayınız."
+                ));
+                $location = "../deneme-duzenle?id=".$quizID;
+            }
+            else{
+                $delete = $db->exec("DELETE FROM d_quizquestions WHERE qq_quizid = '{$quizID}' AND qq_userid='{$_SESSION["user"]["id"]}'");
+                if($delete){
+                    //
+                    foreach($questions as $question){   
+                        $query = $db->prepare("INSERT INTO d_quizquestions SET
+                        qq_quizid = ?,
+                        qq_userid = ?,
+                        qq_questionid = ?");
+                        $insert = $query->execute(array(
+                            $quizID, $_SESSION["user"]["id"], $question
+                        ));
+                        if ( !$insert ){
+                            $error = true;
+                        }
+                    }
+
+                    if($error){
+                        array_push($messages,array(
+                            "type"=> "error",
+                            "title"=> "Hata",
+                            "message"=> "Sistemsel hata yaşandı lütfen bu durumu site yöneticisine bildiriniz."
+                        ));
+                    }
+                    else{
+                        array_push($messages,array(
+                            "type"=> "success",
+                            "title"=> "Başarılı",
+                            "message"=> "Deneme başarıyla güncellendi."
+                        ));
+                    }
+                    $location = "../denemelerim";
+                    //
+                }
+                else{
+                    array_push($messages,array(
+                        "type"=> "error",
+                        "title"=> "Hata",
+                        "message"=> "Sistemsel hata yaşandı lütfen bu durumu site yöneticisine bildiriniz."
+                    ));
+                    $location = "../deneme-duzenle?id=".$quizID;
+                }
+            }
+        }
     }
 
 
