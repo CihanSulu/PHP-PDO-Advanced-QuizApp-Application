@@ -1,5 +1,6 @@
 <?php
 include("config/config.php");
+date_default_timezone_set('Europe/Istanbul');
 $errorCode = "";
 
 /*Status(404,deactive,timeout,maxuser,ip)*/

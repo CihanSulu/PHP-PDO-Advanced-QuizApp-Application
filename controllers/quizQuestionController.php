@@ -124,7 +124,7 @@ if($location == ""){
             }
             else{
                 $delete = $db->exec("DELETE FROM d_quizquestions WHERE qq_quizid = '{$quizID}' AND qq_userid='{$_SESSION["user"]["id"]}'");
-                if($delete){
+                if ($delete !== false) {
                     //
                     foreach($questions as $question){   
                         $query = $db->prepare("INSERT INTO d_quizquestions SET

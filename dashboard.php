@@ -1,7 +1,7 @@
 <?php 
-    $title = "Deneme Sınav Portalı - Dashboard | Ortaokul İngilizce";
+    $title = "Deneme Sınav Portalı - Anasayfa | Ortaokul İngilizce";
     $breadcrumb = [
-        ["url" => "#", "text" => "Dashboard"]
+        ["url" => "#", "text" => "Anasayfa"]
     ];
     include("partials/header.php"); 
 
