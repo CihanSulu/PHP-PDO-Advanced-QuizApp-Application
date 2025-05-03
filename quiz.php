@@ -63,7 +63,7 @@ if (!isset($_GET["id"])) {
 
 <body>
 
-    <div class="logo"><a href="/"><img src="http://localhost/deneme/assets/images/logo.png" alt="Ortaokul İngilizce" style="height:40px"></a></div>
+    <div class="logo"><a href="/"><img src="assets/images/logo.png" alt="Ortaokul İngilizce" style="height:40px"></a></div>
     <?php if ($errorCode == ""): ?>
         <div class="timeout" data-time="<?= $quizMaster["quiz_time"] ?>" style="font-size:20px;display:none"><span class="mdi mdi-clock-alert"></span> <span class="timeText"><?= $quizMaster["quiz_time"] ?> Dakika</span></div>
     <?php endif; ?>

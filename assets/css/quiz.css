@@ -55,7 +55,7 @@ ul{
     margin: 0px;
 }
 .answer{
-    height: 65px;
+    min-height: 65px;
     width: 100%;
     background-color: #F8f8f8;
     margin-bottom: 10px;
@@ -118,9 +118,9 @@ ul{
 .answer:nth-child(4){
   animation: effectLeft 0.9s ease forwards;
 }
-.quizpage .card{
+/*.quizpage .card{
   overflow: hidden;
-}
+}*/
 @media only screen and (max-width: 400px) {
     .buttons {
       display: inline-block !important;
