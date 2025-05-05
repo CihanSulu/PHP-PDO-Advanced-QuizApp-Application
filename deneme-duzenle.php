@@ -108,7 +108,7 @@ $questions = $questionsPdo->fetchAll(); // Tüm sonuçları diziye al
                                         $categories = $categoriesStmt->fetchAll();
                                         if (count($categories)):
                                             foreach( $categories as $key=>$row ): ?>
-                                               <?php if (stripos($row["baslik"], "plan") === false && stripos($row["baslik"], "genel") === false): ?>
+                                               <?php if (stripos($row["baslik"], "günlük") === false && stripos($row["baslik"], "genel") === false): ?>
                                                    <li class="mb-3"><button category-id="<?= $row["id"] ?>" class="btn btn-primary <?= $key==0 ? "btn-success":"" ?>"><?= $row["baslik"] ?></button></li>
                                                <?php endif; ?>
                                            <?php endforeach; ?>

@@ -91,19 +91,21 @@ ul{
   margin-right: 15px;
 }
 .answer.active::before{
-    transition: all 0.1s ease-in-out;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    content: "\f00c";
-    margin-right: 15px;
-    background-color: #155724;
-    border-radius: 100%;
-    height: 30px;
-    width: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  transition: all 0.1s ease-in-out;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f111";
+  margin-right: 15px;
+  background-color: transparent;
+  border-radius: 100%;
+  height: 35px;
+  width: 35px;
+  /*display: flex;
+  justify-content: center;
+  align-items: center;*/
+  text-align: center;
+  border:3px solid #fff;
+  padding-left:1px;
 }
 
 .answer:nth-child(1){

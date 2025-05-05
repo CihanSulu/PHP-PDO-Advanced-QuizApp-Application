@@ -23,7 +23,7 @@ if(isset($_POST["quizData"])){
         foreach($quizData['answers'] as $value){
             $answer = $value["answer"];
             $questionID = $value["questionID"];
-            if($answer == ""){
+            if ($answer === "" || $answer === "null" || is_null($answer)) {
                 $answer = 5;
             }
             $getQuestion = $db->query("SELECT * FROM d_questions WHERE q_id = '{$questionID}'")->fetch(PDO::FETCH_ASSOC);
