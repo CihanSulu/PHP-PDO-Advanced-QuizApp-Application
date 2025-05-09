@@ -161,6 +161,15 @@ body {
   -webkit-box-shadow: inset 0 0 0 2000px rgba(31, 35, 60, 0.8);
           box-shadow: inset 0 0 0 2000px rgba(31, 35, 60, 0.8);
 }
+#datatable.noorder thead tr th{
+  cursor: pointer;
+}
+#datatable.noorder thead tr th::after{
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f0dc";
+  margin-left: 5px;
+}
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
   margin: 10px 0;
@@ -4671,6 +4680,12 @@ th.footable-sortable > span.fooicon {
 }
 
 @media screen and (max-width: 767px) {
+  #datatable{
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
   .main-timeline {
     padding: 70px 0 0;
   }

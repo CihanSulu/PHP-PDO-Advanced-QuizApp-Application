@@ -34,7 +34,7 @@ if(isset($_GET["id"])) {
 
                         <?php if($sonuc): ?>
                         <a href="tum-denemeler" type="button" class="btn btn-primary btn-square waves-effect waves-light mb-4">Geri Dön</a>
-                        <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                        <table id="datatable" class="table table-bordered dt-responsive nowrap noorder"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
@@ -44,7 +44,7 @@ if(isset($_GET["id"])) {
                                     <th>Doğru Sayısı</th>
                                     <th>Yanlış Sayısı</th>
                                     <th>Boş Sayısı</th>
-                                    <th>Puanı</th>
+                                    <th class="ordering">Puanı</th>
                                     <th>Puanı (3Y-1D)</th>
                                     <th>Görüntüle</th>
                                 </tr>
@@ -113,7 +113,7 @@ if(isset($_GET["id"])) {
 
 
                         <?php if(!$sonuc): ?>
-                        <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                        <table id="datatable" class="table table-bordered dt-responsive nowrap noorder"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
@@ -122,7 +122,7 @@ if(isset($_GET["id"])) {
                                     <th>Başlangıç Tarihi</th>
                                     <th>Bitiş Tarihi</th>
                                     <th>Oluşturan Kullanıcı</th>
-                                    <th>Katılımcı Sayısı</th>
+                                    <th class="ordering">Katılımcı Sayısı</th>
                                     <th>Görüntüle</th>
                                 </tr>
                             </thead>

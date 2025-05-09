@@ -104,7 +104,7 @@ if($location == ""){
         $quizID = $_POST["masterID"];
         $error = false;
 
-        $quizMaster = $db->query("SELECT * FROM d_quizmaster WHERE quiz_user = '{$_SESSION["user"]["id"]}'")->fetch(PDO::FETCH_ASSOC);
+        $quizMaster = $db->query("SELECT * FROM d_quizmaster WHERE quiz_user = '{$_SESSION["user"]["id"]}' AND quiz_id = '{$quizID}'")->fetch(PDO::FETCH_ASSOC);
         if ( !$quizMaster ){
             array_push($messages,array(
                 "type"=> "error",

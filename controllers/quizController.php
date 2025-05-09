@@ -105,9 +105,10 @@ if($location == ""){
             quiz_status = ?,
             quiz_public = ?,
             quiz_hash = ?,
-            quiz_time = ?");
+            quiz_time = ?,
+            quiz_finishtype = ?");
             $insert = $query->execute(array(
-                $_POST["class"], $_SESSION["user"]["id"], $_POST["title"], $_POST["maxStudent"], $_POST["questionQty"], $_POST["minDate"], $_POST["maxDate"], $_POST["active"], $public, generateUniqueUID($db), $_POST["time"]
+                $_POST["class"], $_SESSION["user"]["id"], $_POST["title"], $_POST["maxStudent"], $_POST["questionQty"], $_POST["minDate"], $_POST["maxDate"], $_POST["active"], $public, generateUniqueUID($db), $_POST["time"], $_POST["finish"]
             ));
             if ( $insert ){
                 $last_id = $db->lastInsertId();
@@ -175,7 +176,8 @@ if($location == ""){
                 quiz_enddate = ?,
                 quiz_status = ?,
                 quiz_public = ?,
-                quiz_time = ?
+                quiz_time = ?,
+                quiz_finishtype = ?
                 WHERE quiz_id = ?");
             $update = $query->execute(array(
                 $_POST["class"],
@@ -187,6 +189,7 @@ if($location == ""){
                 $_POST["active"],
                 $public,
                 $_POST["time"],
+                $_POST["finish"],
                 $_POST["id"]
             ));
             if ( $update ){

@@ -132,6 +132,12 @@ if ( !$question ){
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="example-text-input">Soru Çözüm Videosu</label>
+                                            <input class="form-control answers" value="<?= $question["q_questionvideo"] ?>" type="text" name="video" id="example-text-input" placeholder="Videolu Çözüm Linki">
+                                        </div>
+                                    </div>
 
                                     <div class="col-sm-12 text-right">
                                         <button type="submit" class="btn btn-primary px-5 py-2">Soruyu Güncelle</button>

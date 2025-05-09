@@ -75,7 +75,18 @@ include("partials/header.php");
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
-                                            <label for="example-text-input">Deneme Sınav Durumu<small><br>(Pasif olan denemeler, giriş kabul etmez.)</small></label>
+                                            <label for="example-text-input">Deneme Sonunda Öğrenci Görebilsin</label>
+                                            <select class="form-control" name="finish" required="">
+                                                <option value="0" <?= (isset($_SESSION["old"]) && $_SESSION["old"]["finish"] == "0") ? "selected" : "" ?>>Sonuçları Göremesin</option>
+                                                <option value="1" <?= (isset($_SESSION["old"]) && $_SESSION["old"]["finish"] == "1") ? "selected" : "" ?>>Sadece Doğru Yanlış Sayısını</option>
+                                                <option value="2" <?= (isset($_SESSION["old"]) && $_SESSION["old"]["finish"] == "2") ? "selected" : "" ?>>Sorular Ve Cevaplarıyla</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="example-text-input">Deneme Sınav Durumu</label>
                                             <select class="form-control" name="active" required="">
                                                 <option value="1" <?= (isset($_SESSION["old"]) && $_SESSION["old"]["active"] == "1") ? "selected" : "" ?>>Aktif</option>
                                                 <option value="0" <?= (isset($_SESSION["old"]) && $_SESSION["old"]["active"] == "0") ? "selected" : "" ?>>Pasif</option>

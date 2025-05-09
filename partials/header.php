@@ -42,6 +42,18 @@
                 }
             }
         </style>
+
+        <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=659566363cf4bf001a617457&product=inline-share-buttons' async='async'></script>	<!-- Global site tag (gtag.js) - Google Analytics -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css">
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-V7MJQV4B5T"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-V7MJQV4B5T');
+        </script>
     </head>
 
     <body>
@@ -146,7 +158,7 @@
                         <li><a href="denemeler"><i class="mdi mdi-book-open-page-variant"></i><span>Hazır Deneme Sınavları</span></a></li>
                         <li><a href="deneme-olustur"><i class="mdi mdi-apps"></i><span>Deneme Sınavı Oluştur</span></a></li>
                         <li><a href="denemelerim"><i class="mdi mdi-format-list-bulleted-type"></i><span>Deneme Sınavlarım</span></a></li>
-                        <li><a href="deneme-sonuclari"><i class="mdi mdi-poll"></i><span>Deneme Sınav Sonuçları</span></a></li>
+                        <li><a href="deneme-sonuclari"><i class="mdi mdi-poll"></i><span>Deneme Sınav Analizi</span></a></li>
                         <!--  <li><a href="deneme-ayarlari"><i class="mdi mdi-lock-outline"></i><span>Deneme Ayarları</span></a></li>-->
                         
                         <?php if($_SESSION["user"]["yetki"] == "admin"): ?>
@@ -161,15 +173,17 @@
                             <li>
                                 <a href="javascript: void(0);"><i class="mdi mdi-poll"></i><span>Sistem Analizi</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                                 <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="tum-denemeler">Oluşturulan Denemeler</a></li>
-                                    <li><a href="tum-ogrenciler">Öğrenciler</a></li>
+                                    <li><a href="deneme-sonuclari?admin=true">Oluşturulan Tüm Denemeler</a></li>
+                                    <li><a href="tum-ogrenciler">Tüm Öğrenciler</a></li>
                                 </ul>
                             </li>
                         <?php endif; ?>
                              
                         <li class="menu-title">Kullanıcı Bilgisi</li>
                         <li class="bg-success p-3 text-white font-weight-bold" style="padding-left:30px !important"><span><i class="mdi mdi-star"></i> Üye Paketiniz: <?= ucfirst($_SESSION["user"]["yetki"]) ?></span></li>
-
+                        <li class="mt-0 text-center">
+                            <a href="https://chat.whatsapp.com/DqmHEmabPwP0Rg6sPbHj6L" target="_blank"><img src="assets/images/whatsapp.png" class="img-fluid"></a>
+                        </li>
                     </ul>
                 </div>
 

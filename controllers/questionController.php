@@ -88,16 +88,17 @@ if($location == ""){
         // INSERT işlemi (PDO örneği)
         $stmt = $db->prepare("
             INSERT INTO d_questions (
-                q_class, q_category, q_user, q_question, 
+                q_class, q_category, q_user, q_question, q_questionvideo, 
                 q_answer_a, q_answer_b, q_answer_c, q_answer_d,
                 q_true, q_active, q_answerimage
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         $inserted = $stmt->execute([
             $class,
             $category,
             $_SESSION["user"]["id"],
             $questionImage,
+            $_POST["video"] == "" ? null : $_POST["video"],
             $answerA,
             $answerB,
             $answerC,
@@ -180,7 +181,7 @@ if($location == ""){
         // UPDATE işlemi
         $stmt = $db->prepare("
             UPDATE d_questions SET
-                q_class = ?, q_category = ?, q_question = ?, 
+                q_class = ?, q_category = ?, q_question = ?, q_questionvideo = ?, 
                 q_answer_a = ?, q_answer_b = ?, q_answer_c = ?, q_answer_d = ?,
                 q_true = ?, q_active = ?, q_answerimage = ?
             WHERE q_id = ?
@@ -190,6 +191,7 @@ if($location == ""){
             $class,
             $category,
             $questionImage,
+            $_POST["video"] == "" ? null : $_POST["video"],
             $answerA,
             $answerB,
             $answerC,

@@ -2,6 +2,7 @@
 include("../config/config.php");
 $messages = array();  
 $status = 0;
+$studentid = 0;
 
 
 if(isset($_POST["quizData"])){
@@ -20,6 +21,7 @@ if(isset($_POST["quizData"])){
     ));
     if ( $insert ){
         $stid = $db->lastInsertId();
+        $studentid = $stid;
         foreach($quizData['answers'] as $value){
             $answer = $value["answer"];
             $questionID = $value["questionID"];
@@ -51,6 +53,10 @@ if(isset($_POST["quizData"])){
 }
 else{
     $status = -1;
+}
+
+if($status == 1){
+    $_SESSION["student"] = $studentid;
 }
 
 echo $status;
