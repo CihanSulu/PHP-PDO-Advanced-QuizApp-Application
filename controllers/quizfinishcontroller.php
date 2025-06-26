@@ -9,15 +9,17 @@ if(isset($_POST["quizData"])){
     $quizData = json_decode($_POST["quizData"], true);
     $name = $quizData["name"];
     $surname = $quizData["surname"];
+    $school = $quizData["school"];
     $quidID = $quizData["quizID"];
     
     $querySt = $db->prepare("INSERT INTO d_quizstudents SET
         student_quiz = ?,
         student_name = ?,
         student_surname = ?,
+        student_school = ?,
         student_ip = ?");
     $insert = $querySt->execute(array(
-        $quidID, $name, $surname, $_SERVER['REMOTE_ADDR']
+        $quidID, $name, $surname, $school, $_SERVER['REMOTE_ADDR']
     ));
     if ( $insert ){
         $stid = $db->lastInsertId();
@@ -28,7 +30,9 @@ if(isset($_POST["quizData"])){
             if ($answer === "" || $answer === "null" || is_null($answer)) {
                 $answer = 5;
             }
-            $getQuestion = $db->query("SELECT * FROM d_questions WHERE q_id = '{$questionID}'")->fetch(PDO::FETCH_ASSOC);
+            $getQuestionStmt = $db->prepare("SELECT * FROM d_questions WHERE q_id = ?");
+            $getQuestionStmt->execute([$questionID]);
+            $getQuestion = $getQuestionStmt->fetch(PDO::FETCH_ASSOC);
 
             $queryAnswer = $db->prepare("INSERT INTO d_quizstudentquestions SET
                 sq_student = ?,

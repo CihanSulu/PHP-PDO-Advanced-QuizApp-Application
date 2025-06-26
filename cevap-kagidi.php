@@ -13,7 +13,12 @@ if (!isset($_GET["id"])) {
     exit;
 } else {
     $id = intval($_GET["id"]);
-    $StudentMaster = $db->query("SELECT * FROM d_quizstudents WHERE student_id = '{$id}'")->fetch(PDO::FETCH_ASSOC);
+    $sql = "SELECT * FROM d_quizstudents WHERE student_id = :student_id";
+    $params = [
+        ':student_id' => $id
+    ];
+    $StudentMaster = pdoQuery($db, $sql, $params)->fetch(PDO::FETCH_ASSOC);
+
     if (!$StudentMaster) {
         header("Location: index");
         exit;
@@ -25,7 +30,7 @@ if (!isset($_GET["id"])) {
             exit;
         }
         else{
-            if($QuizMaster["quiz_user"] != $_SESSION["user"]["id"]){
+            if($QuizMaster["quiz_user"] != $_SESSION["user"]["kadi"]){
                 if($_SESSION["user"]["yetki"] != "admin"){
                     header("Location: index");
                     exit;

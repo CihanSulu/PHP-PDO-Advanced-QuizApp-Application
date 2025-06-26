@@ -4,11 +4,16 @@ date_default_timezone_set('Europe/Istanbul');
 $errorCode = "";
 
 /*Status(404,deactive,timeout,maxuser,ip)*/
-if (!isset($_GET["id"])) {
+if (!isset($_GET["hashx"])) {
     $errorCode = "404";
 } else {
-    $id = $_GET["id"];
-    $quizMaster = $db->query("SELECT * FROM d_quizmaster WHERE quiz_hash = '{$id}'")->fetch(PDO::FETCH_ASSOC);
+    $id = $_GET["hashx"];
+    $sql = "SELECT * FROM d_quizmaster WHERE quiz_hash = :quiz_hash";
+    $params = [
+        ':quiz_hash' => $id
+    ];
+    $quizMaster = pdoQuery($db, $sql, $params)->fetch(PDO::FETCH_ASSOC);
+
     if (!$quizMaster) {
         $errorCode = "404";
     } else {
@@ -52,10 +57,10 @@ if (!isset($_GET["id"])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Russo+One&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/css/quiz.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="stylesheet" href="/assets/css/quiz.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" integrity="sha512-O03ntXoVqaGUTAeAmvQ2YSzkCvclZEcPQu1eqloPaHfJ5RuNGiS4l+3duaidD801P50J28EHyonCV06CUlTSag=="crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" integrity="sha512-O03ntXoVqaGUTAeAmvQ2YSzkCvclZEcPQu1eqloPaHfJ5RuNGiS4l+3duaidD801P50J28EHyonCV06CUlTSag==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -68,7 +73,7 @@ if (!isset($_GET["id"])) {
 
 <body>
 
-    <div class="logo"><a href="/"><img src="assets/images/logo.png" alt="Ortaokul İngilizce" style="height:40px"></a></div>
+    <div class="logo"><a href="/"><img src="/assets/images/logo.png" alt="Ortaokul İngilizce" style="height:40px"></a></div>
     <?php if ($errorCode == ""): ?>
         <div class="timeout" data-time="<?= $quizMaster["quiz_time"] ?>" style="font-size:20px;display:none"><span class="mdi mdi-clock-alert"></span> <span class="timeText"><?= $quizMaster["quiz_time"] ?> Dakika</span></div>
     <?php endif; ?>
@@ -150,6 +155,11 @@ if (!isset($_GET["id"])) {
                                         style="cursor: text;">
                                 </div>
                                 <div class="form-group mt-3">
+                                    <label for="">Okulunuz</label>
+                                    <input type="text" class="form-control" id="school" placeholder="Okul"
+                                        style="cursor: text;">
+                                </div>
+                                <div class="form-group mt-3">
                                     <button class="btn btn-primary" id="startQuiz">Sınavı Başlat</button>
                                 </div>
                             </div>
@@ -166,7 +176,7 @@ if (!isset($_GET["id"])) {
                 <div class="card shadow border-0 p-4">
                     <div class="numberQuestion">1</div>
                     <div class="card-header bg-white text-center">
-                        <img src="assets/questions/test1.jpg" class="img-fluid" alt="">
+                        <img src="/assets/questions/test1.jpg" class="img-fluid" alt="">
                     </div>
                     <div class="card-body">
                         <ul>
@@ -221,6 +231,6 @@ if (!isset($_GET["id"])) {
             <?php endforeach; ?>
         <?php endif; ?>  
     </script>
-    <script src="assets/js/quiz.js"></script>
+    <script src="/assets/js/quiz.js"></script>
 
 </html>

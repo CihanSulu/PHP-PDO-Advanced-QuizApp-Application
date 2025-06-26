@@ -34,7 +34,7 @@ include("partials/header.php");
                             </thead>
                             <tbody>
 
-                                <?php $query = $db->query("SELECT * FROM d_quizmaster WHERE quiz_user = '{$_SESSION["user"]["id"]}' order by quiz_id DESC", PDO::FETCH_ASSOC);
+                                <?php $query = $db->query("SELECT * FROM d_quizmaster WHERE quiz_user = '{$_SESSION["user"]["kadi"]}' order by quiz_id DESC", PDO::FETCH_ASSOC);
                                 if ($query->rowCount()): ?>
                                     <?php foreach ($query as $row): ?>
                                         <tr>
@@ -55,7 +55,7 @@ include("partials/header.php");
                                                 if ($now > $end)
                                                     $quizStatus = "Süresi Geçti";  
 
-                                                $stmt = $db->query("SELECT * FROM d_quizquestions WHERE qq_quizid = '{$row["quiz_id"]}' AND qq_userid = '{$_SESSION["user"]["id"]}' ");
+                                                $stmt = $db->query("SELECT * FROM d_quizquestions WHERE qq_quizid = '{$row["quiz_id"]}' AND qq_userid = '{$_SESSION["user"]["kadi"]}' ");
                                                 $questionCount = $stmt->rowCount();
                                                 if($questionCount != $row["quiz_questionqty"])
                                                     $quizStatus = "Soru Eklenmemiş (".$row["quiz_questionqty"]."/".$questionCount.")";
@@ -64,7 +64,7 @@ include("partials/header.php");
                                             </td>
                                             <td>
                                                 <?php $domain = $_SERVER['HTTP_HOST']; ?>
-                                                <a target="_blank" href="https://<?= $domain ?>/quiz?id=<?= $row['quiz_hash'] ?>">https://<?= $domain ?>/quiz?id=<?= $row['quiz_hash'] ?></a>
+                                                <a target="_blank" href="https://<?= $domain ?>/quiz/<?= $row['quiz_hash'] ?>">https://<?= $domain ?>/quiz/<?= $row['quiz_hash'] ?></a>
                                             </td>
                                             <td>
                                                 <div class="btn-group">

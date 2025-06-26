@@ -24,10 +24,19 @@ if(isset($_GET["id"])) {
     else{
         $type = $_GET["type"];
         if($admin){
-            $Master = $db->query("SELECT * FROM d_quizmaster WHERE quiz_id = '{$_GET["id"]}'")->fetch(PDO::FETCH_ASSOC);
+            $sql = "SELECT * FROM d_quizmaster WHERE quiz_id = :quiz_id";
+            $params = [
+                ':quiz_id' => $_GET['id'],
+            ];
+            $Master = pdoQuery($db, $sql, $params)->fetch(PDO::FETCH_ASSOC);
         }
         else{
-            $Master = $db->query("SELECT * FROM d_quizmaster WHERE quiz_id = '{$_GET["id"]}' AND quiz_user = '{$_SESSION["user"]["id"]}' ")->fetch(PDO::FETCH_ASSOC);
+            $sql = "SELECT * FROM d_quizmaster WHERE quiz_id = :quiz_id AND quiz_user = :quiz_user";
+            $params = [
+                ':quiz_id' => $_GET['id'],
+                ':quiz_user' => $_SESSION['user']['kadi']
+            ];
+            $Master = pdoQuery($db, $sql, $params)->fetch(PDO::FETCH_ASSOC);
         }
         if ( !$Master ){
             header("Location: deneme-sonuclari");
@@ -62,6 +71,7 @@ if(isset($_GET["id"])) {
                                         <tr>
                                             <th>Öğrenci Adı</th>
                                             <th>Öğrenci Soyadı</th>
+                                            <th>Öğrenci Okulu</th>
                                             <th>Öğrenci IP Adresi</th>
                                             <th>Doğru Sayısı</th>
                                             <th>Yanlış Sayısı</th>
@@ -81,6 +91,7 @@ if(isset($_GET["id"])) {
                                             s.student_id,
                                             s.student_name,
                                             s.student_surname,
+                                            s.student_school,
                                             m.quiz_id,
                                             s.student_ip,
                                             SUM(CASE WHEN q.sq_true = 1 AND q.sq_answer != 5 THEN 1 ELSE 0 END) AS correct_count,
@@ -110,6 +121,7 @@ if(isset($_GET["id"])) {
                                                 <tr>
                                                     <td><?= $row["student_name"] ?></td>
                                                     <td><?= $row["student_surname"] ?></td>
+                                                    <td><?= $row["student_school"] ?></td>
                                                     <td><?= $row["student_ip"] ?></td>
                                                     <td class="text-success"><?= $correct ?></td>
                                                     <td class="text-danger"><?= $row["wrong_count"] ?></td>
@@ -217,10 +229,10 @@ if(isset($_GET["id"])) {
 
                                 <?php 
                                 if($admin){
-                                    $query = $db->query("SELECT * FROM d_quizmaster a inner join kullanicilar b ON a.quiz_user = b.id order by a.quiz_id DESC", PDO::FETCH_ASSOC);
+                                    $query = $db->query("SELECT * FROM d_quizmaster a order by a.quiz_id DESC", PDO::FETCH_ASSOC);
                                 }
                                 else{
-                                    $query = $db->query("SELECT * FROM d_quizmaster WHERE quiz_user = '{$_SESSION["user"]["id"]}' order by quiz_id DESC", PDO::FETCH_ASSOC);
+                                    $query = $db->query("SELECT * FROM d_quizmaster WHERE quiz_user = '{$_SESSION["user"]["kadi"]}' order by quiz_id DESC", PDO::FETCH_ASSOC);
                                 }
                                 
                                 if ($query->rowCount()): ?>
@@ -234,7 +246,7 @@ if(isset($_GET["id"])) {
                                             <td><?= $row["quiz_startdate"] ?></td>
                                             <td><?= $row["quiz_enddate"] ?></td>
                                             <?php if($admin): ?>
-                                                <td><?= $row["kadi"] ?></td>
+                                                <td><?= $row["quiz_user"] ?></td>
                                             <?php endif; ?>
                                             <td>
                                                 <?php 

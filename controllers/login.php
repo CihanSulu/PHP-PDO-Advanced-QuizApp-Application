@@ -1,5 +1,5 @@
 <?php 
-include("../config/config.php");
+include("../config/config_hash.php");
 
 $messages = array();    
 
@@ -8,7 +8,12 @@ $password = @$_POST["password"];
 $pass = md5(sha1(md5(sha1(sha1($password)))));
 
 
-$query = $db->query("SELECT * FROM kullanicilar WHERE (kadi = '{$username}' OR email = '{$username}') AND parola = '{$pass}'")->fetch(PDO::FETCH_ASSOC);
+$stmt = $db->prepare("SELECT * FROM kullanicilar WHERE (kadi = :username OR email = :username) AND parola = :pass");
+$stmt->execute([
+    ":username" => $username,
+    ":pass" => $pass
+]);
+$query = $stmt->fetch(PDO::FETCH_ASSOC);
 if ( $query ){
     if ($query["yetki"] != "admin" && stripos($query["yetki"], "VIP") === false) {
         array_push($messages,array(
@@ -39,6 +44,8 @@ if ( $query ){
                 "kadi"=> $query["kadi"],
                 "yetki"=> $query["yetki"],
                 "email"=> $query["email"],
+                "uyelikbaslangic"=> $query["uyelikbaslangic"],
+                "uyelikbitis" => $query["uyelikbitis"]
             );
             array_push($messages,array(
                 "type"=> "success",

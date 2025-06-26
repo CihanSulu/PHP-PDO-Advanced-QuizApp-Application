@@ -25,9 +25,14 @@ if($location == ""){
     //Delete
     if($method == "del"){
         if(isset($_GET["id"])){
+            $sql = "SELECT * FROM d_quizmaster WHERE quiz_id = :quiz_id";
+            $params = [
+                ':quiz_id' => $_GET['id']
+            ];
+            $getMaster = pdoQuery($db, $sql, $params)->fetch(PDO::FETCH_ASSOC);
 
-            $getMaster = $db->query("SELECT * FROM d_quizmaster WHERE quiz_id = '{$_GET["id"]}'")->fetch(PDO::FETCH_ASSOC);
-            if($getMaster && $getMaster["quiz_user"] == $_SESSION["user"]["id"]){
+
+            if($getMaster && $getMaster["quiz_user"] == $_SESSION["user"]["kadi"]){
                 $query = $db->prepare("DELETE FROM d_quizmaster WHERE quiz_id = :id");
                 $delete = $query->execute(array(
                     'id' => $_GET["id"]
@@ -72,7 +77,8 @@ if($location == ""){
         $start = DateTime::createFromFormat('d/m/Y H:i', $startDate);
         $end = DateTime::createFromFormat('d/m/Y H:i', $endDate);
 
-        $stmt = $db->query("SELECT * FROM d_questions WHERE q_class = '{$_POST["class"]}' ");
+        $stmt = $db->prepare("SELECT * FROM d_questions WHERE q_class = :class");
+        $stmt->execute(['class' => $_POST['class']]);
         $questionCount = $stmt->rowCount();
 
         if ($end < $start) {
@@ -108,7 +114,7 @@ if($location == ""){
             quiz_time = ?,
             quiz_finishtype = ?");
             $insert = $query->execute(array(
-                $_POST["class"], $_SESSION["user"]["id"], $_POST["title"], $_POST["maxStudent"], $_POST["questionQty"], $_POST["minDate"], $_POST["maxDate"], $_POST["active"], $public, generateUniqueUID($db), $_POST["time"], $_POST["finish"]
+                $_POST["class"], $_SESSION["user"]["kadi"], $_POST["title"], $_POST["maxStudent"], $_POST["questionQty"], $_POST["minDate"], $_POST["maxDate"], $_POST["active"], $public, generateUniqueUID($db), $_POST["time"], $_POST["finish"]
             ));
             if ( $insert ){
                 $last_id = $db->lastInsertId();
@@ -147,7 +153,8 @@ if($location == ""){
         $start = DateTime::createFromFormat('d/m/Y H:i', $startDate);
         $end = DateTime::createFromFormat('d/m/Y H:i', $endDate);
 
-        $stmt = $db->query("SELECT * FROM d_questions WHERE q_class = '{$_POST["class"]}' ");
+        $stmt = $db->prepare("SELECT * FROM d_questions WHERE q_class = :class");
+        $stmt->execute(['class' => $_POST['class']]);
         $questionCount = $stmt->rowCount();
 
         if ($end < $start) {

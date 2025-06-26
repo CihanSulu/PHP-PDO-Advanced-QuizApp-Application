@@ -1,6 +1,7 @@
 let currentQuestion = 0;
 let Stname = "";
 let Stsurname = "";
+let Stschool = "";
 let timerInterval;
 let quizFinished = false;
 
@@ -22,7 +23,7 @@ function renderQuestion(index) {
     $(".numberQuestion").text(index + 1);
 
     // Soru resmi
-    quizCard.find(".card-header img").attr("src", "assets/questions/" + question.questionImage);
+    quizCard.find(".card-header img").attr("src", "/assets/questions/" + question.questionImage);
 
     // Şıkları oluştur
     let answerHTML = "";
@@ -32,7 +33,7 @@ function renderQuestion(index) {
             const imgSrc = question.answers[i][key];
             const activeClass = question.answer === i ? "active" : "";
             answerHTML += `<li class="answer ${key} ${activeClass}" data-index="${i}">
-                              <img src="assets/answers/${imgSrc}" class="img-fluid" />
+                              <img src="/assets/answers/${imgSrc}" class="img-fluid" />
                            </li>`;
         });
     } else {
@@ -89,6 +90,7 @@ $("#startQuiz").click(function () {
         });
         Stname = $("#name").val();
         Stsurname = $("#surname").val();
+        Stschool = $("#school").val();
         $(".timeout").show();
         $(".quizLogin").hide();
         $(".quizpage").show();
@@ -115,15 +117,19 @@ $(".buttons button:contains('Sonraki Soru')").click(function () {
 
 // Sınavı Bitir butonu
 $(".buttons button:contains('Sınavı Bitir')").click(function () {
+    const $button = $(this);
+    $button.prop("disabled", true);
+
     const postData = {
         name: Stname,
         surname: Stsurname,
+        school: Stschool,
         quizID: quizID,
         answers: data
     };
 
     $.ajax({
-        url: 'controllers/quizfinishcontroller.php',
+        url: '/controllers/quizfinishcontroller.php',
         type: 'POST',
         data: {quizData: JSON.stringify(postData)},
         success: function (response) {
@@ -134,10 +140,10 @@ $(".buttons button:contains('Sınavı Bitir')").click(function () {
                 message: 'Sınav başarıyla gönderildi.',
             });
             if(response == "1"){
-                window.location.href = "quiz-bitti?status=true";
+                window.location.href = "/quiz-bitti?status=true";
             }
             else{
-                window.location.href = "quiz-bitti?status=false";
+                window.location.href = "/quiz-bitti?status=false";
             }
         },
         error: function () {
@@ -145,6 +151,7 @@ $(".buttons button:contains('Sınavı Bitir')").click(function () {
                 title: 'Hata',
                 message: 'Bir hata oluştu, lütfen tekrar deneyiniz.',
             });
+            $button.prop("disabled", false);
         }
     });
 });

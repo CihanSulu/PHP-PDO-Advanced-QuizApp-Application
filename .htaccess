@@ -1,4 +1,9 @@
-RewriteEngine on
+RewriteEngine On
+
+# /quiz/someHash formatını quiz.php?hashx=someHash olarak yönlendir
+RewriteRule ^quiz/([a-zA-Z0-9]+)$ quiz.php?hashx=$1 [L,QSA]
+
+# Eğer gerçek bir dosya veya dizin değilse .php uzantısını otomatik ekle
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}\.php -f
-RewriteRule ^(.*)$ $1.php [NC,L]
+RewriteRule ^(.+)$ $1.php [NC,L]

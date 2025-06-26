@@ -96,7 +96,7 @@ if($location == ""){
         $inserted = $stmt->execute([
             $class,
             $category,
-            $_SESSION["user"]["id"],
+            $_SESSION["user"]["kadi"],
             $questionImage,
             $_POST["video"] == "" ? null : $_POST["video"],
             $answerA,
@@ -159,7 +159,9 @@ if($location == ""){
         $answerImage = $_POST['answerimage'];
     
         // Eski veriyi çek
-        $oldQuestion = $db->query("SELECT * FROM d_questions WHERE q_id = $id")->fetch(PDO::FETCH_ASSOC);
+        $oldQuestion = $db->prepare("SELECT * FROM d_questions WHERE q_id = ?");
+        $oldQuestion->execute([$id]);
+        $oldQuestion = $oldQuestion->fetch(PDO::FETCH_ASSOC);
     
         // Soru görseli güncellemesi
         $questionImage = uploadImage('question', $questionDir, $oldQuestion['q_question']);

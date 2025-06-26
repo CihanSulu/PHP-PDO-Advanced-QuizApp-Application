@@ -7,7 +7,12 @@ $breadcrumb = [
 ];
 include("partials/header.php");
 
-$quiz = $db->query("SELECT * FROM d_quizmaster WHERE quiz_id = '{$_GET["id"]}' AND quiz_user = '{$_SESSION["user"]["id"]}' ")->fetch(PDO::FETCH_ASSOC);
+$sql = "SELECT * FROM d_quizmaster WHERE quiz_id = :quiz_id AND quiz_user = :quiz_user";
+$params = [
+    ':quiz_id' => $_GET['id'],
+    ':quiz_user' => $_SESSION['user']['kadi']
+];
+$quiz = pdoQuery($db, $sql, $params)->fetch(PDO::FETCH_ASSOC);
 if ( !$quiz ){
     header("Location: index");
     exit();

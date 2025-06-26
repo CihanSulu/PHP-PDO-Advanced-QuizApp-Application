@@ -80,7 +80,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] === true) {
                                         </div>
                                     </div>
                                     <div class="col-sm-6 text-right">
-                                        <a href="https://ortaokulingilizce.net/sifremi_unuttum.php" class="text-muted font-13"><i class="mdi mdi-lock"></i> Şifreni Mi Unuttun?</a>                                    
+                                        <a href="https://ortaokulingilizce.net/sifremi-unuttum" target="_blank" class="text-muted font-13"><i class="mdi mdi-lock"></i> Şifreni Mi Unuttun?</a>                                    
                                     </div>
                                 </div>
     
@@ -93,7 +93,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] === true) {
                         </div>
                         <div class="m-3 text-center bg-light p-3 text-primary">
                             <h5 class="">VIP Hesabın Yok Mu?</h5>
-                            <a href="https://ortaokulingilizce.net/kayit.php" class="btn btn-primary btn-round waves-effect waves-light">Hemen Kayıt Ol</a>                
+                            <a href="https://ortaokulingilizce.net/kayit" target="_blank" class="btn btn-primary btn-round waves-effect waves-light">Hemen Kayıt Ol</a>                
                         </div>                        
                     </div>
                 </div>

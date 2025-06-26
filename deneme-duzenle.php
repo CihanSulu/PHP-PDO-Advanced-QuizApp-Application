@@ -12,18 +12,19 @@ if (!isset($_GET["id"])) {
     exit;
 } else {
     $id = intval($_GET["id"]);
-    $master = $db->query("SELECT * FROM d_quizmaster WHERE quiz_id = '{$id}'")->fetch(PDO::FETCH_ASSOC);
+    $stmt = pdoQuery($db, "SELECT * FROM d_quizmaster WHERE quiz_id = ?", [$id]);
+    $master = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$master) {
         header("Location: index");
         exit;
     }
-    if($master["quiz_public"] != 1 && $master["quiz_user"] != $_SESSION["user"]["id"]){
+    if($master["quiz_public"] != 1 && $master["quiz_user"] != $_SESSION["user"]["kadi"]){
         header("Location: index");
         exit;
     }
 }
 
-$userId = $_SESSION["user"]["id"];
+$userId = $_SESSION["user"]["kadi"];
 $soruSayisi = $master["quiz_questionqty"];
 $quizId = $master["quiz_id"];
 $messages = array();
@@ -45,8 +46,14 @@ $questions = $questionsPdo->fetchAll(); // Tüm sonuçları diziye al
                         <div class="row">
                             <div class="col-12">
 
-                                <form method="post" id="quizForm" action="controllers/quizQuestionController?method=<?= ($master["quiz_user"] != $_SESSION["user"]["id"]) ? "upt":"ins" ?>">
+                                <form method="post" id="quizForm" action="controllers/quizQuestionController?method=<?= ($master["quiz_user"] != $_SESSION["user"]["kadi"]) ? "upt":"ins" ?>">
                                     <input type="hidden" name="masterID" value="<?= $master["quiz_id"] ?>">
+                                    <div class="row mb-4">
+                                        <div class="col-12 text-right">
+                                            <button type="button" class="btn btn-primary px-5 py-2 text-white saveQuiz">Denemeyi Kaydet</button>
+                                        </div>
+                                    </div>
+
                                     <div class="row">
                                         <?php for($i = 0;$i<$master["quiz_questionqty"];$i++): ?>
                                             <input type="hidden" name="questions[]" class="q-<?= ($i+1) ?>" value="<?= isset($questions[$i]) ? $questions[$i]["qq_questionid"] : ""?>">
@@ -56,7 +63,7 @@ $questions = $questionsPdo->fetchAll(); // Tüm sonuçları diziye al
                                                         <div class="text-center quizimgbox">
                                                             <img src="<?= isset($questions[$i]) ? "assets/questions/".$questions[$i]["q_question"]: 'assets/images/noimage.png' ?>" class="img-fluid quizimg">
                                                         </div>
-                                                        <?php if($master["quiz_user"] == $_SESSION["user"]["id"]): ?>
+                                                        <?php if($master["quiz_user"] == $_SESSION["user"]["kadi"]): ?>
                                                         <div class="quizboxbtn">
                                                             <button type="button" data-val="q-<?= ($i+1) ?>" class="btn btn-pink btn-round waves-effect waves-light degistir-btn">
                                                                 <i class="mdi mdi-find-replace mr-2"></i>Değiştir
@@ -73,7 +80,7 @@ $questions = $questionsPdo->fetchAll(); // Tüm sonuçları diziye al
 
                                     <div class="row">
                                         <div class="col-12 text-right">
-                                            <button type="button" id="saveQuiz" class="btn btn-primary px-5 py-2 text-white">Denemeyi Kaydet</button>
+                                            <button type="button" class="btn btn-primary px-5 py-2 text-white saveQuiz">Denemeyi Kaydet</button>
                                         </div>
                                     </div>
                                 </form>
@@ -271,7 +278,7 @@ $questions = $questionsPdo->fetchAll(); // Tüm sonuçları diziye al
             });
             //AjaxLoading
         }
-        $("#saveQuiz").click(function(){
+        $(".saveQuiz").click(function(){
             var values = [];
             var hasDuplicate = false;
 

@@ -7,12 +7,14 @@ $quizid = intval($_POST["quizid"]);
 $qq_id = intval($_POST["qq_id"]);
 
 // Havuzdaki aynı sınıfa ait tüm soruları al
-$allQuestions = $db->query("
+$stmt = $db->prepare("
     SELECT q_id, q_question FROM d_questions 
     WHERE q_class = (
-        SELECT quiz_class FROM d_quizmaster WHERE quiz_id = $quizid
+        SELECT quiz_class FROM d_quizmaster WHERE quiz_id = ?
     )
-")->fetchAll(PDO::FETCH_ASSOC);
+");
+$stmt->execute([$quizid]);
+$allQuestions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Mevcut qid'yi dışlayarak alternatif soru listesi oluştur
 $available = array_filter($allQuestions, fn($q) => intval($q["q_id"]) !== $qid);

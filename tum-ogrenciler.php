@@ -26,6 +26,7 @@ include("middlewares/authController.php");
                             <tr>
                                     <th>Öğrenci Adı</th>
                                     <th>Öğrenci Soyadı</th>
+                                    <th>Öğrenci Okulu</th>
                                     <th>Katıldığı Deneme Sınavı</th>
                                     <th>Öğrenci IP Adresi</th>
                                     <th>Doğru Sayısı</th>
@@ -45,6 +46,7 @@ include("middlewares/authController.php");
                                     s.student_id,
                                     s.student_name,
                                     s.student_surname,
+                                    s.student_school,
                                     m.quiz_title,
                                     m.quiz_id,
                                     s.student_ip,
@@ -75,6 +77,7 @@ include("middlewares/authController.php");
                                         <tr>
                                             <td><?= $row["student_name"] ?></td>
                                             <td><?= $row["student_surname"] ?></td>
+                                            <td><?= $row["student_school"] ?></td>
                                             <td><?= $row["quiz_title"] ?></td>
                                             <td><?= $row["student_ip"] ?></td>
                                             <td class="text-success"><?= $correct ?></td>

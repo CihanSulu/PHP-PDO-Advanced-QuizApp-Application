@@ -6,7 +6,7 @@ $breadcrumb = [
 ];
 include("partials/header.php");
 
-$info = $db->query("SELECT * FROM kullanicilar WHERE id = '{$_SESSION["user"]["id"]}'")->fetch(PDO::FETCH_ASSOC);
+$info = $_SESSION["user"]
 
 ?>
 
@@ -98,15 +98,10 @@ $info = $db->query("SELECT * FROM kullanicilar WHERE id = '{$_SESSION["user"]["i
                                                         <input type="text" placeholder="password"
                                                             class="form-control" value="<?= $info["email"] ?>" readonly>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-6">
                                                         <label>Yetki</label>
                                                         <input type="text" placeholder="Re-password"
                                                             class="form-control" value="<?= $info["yetki"] ?>" readonly>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label>Skor</label>
-                                                        <input type="text" placeholder="Re-password"
-                                                            class="form-control" value="<?= $info["score"] ?>" readonly>
                                                     </div>
                                                 </div>
                                             </form>

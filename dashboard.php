@@ -9,11 +9,11 @@
     $stmt = $db->query("SELECT * FROM d_quizmaster WHERE quiz_public = '1'");
     $totalAlreadyQuiz = $stmt->rowCount();
 
-    $stmt = $db->query("SELECT * FROM d_quizmaster WHERE quiz_user = '{$_SESSION["user"]["id"]}'");
+    $stmt = $db->query("SELECT * FROM d_quizmaster WHERE quiz_user = '{$_SESSION["user"]["kadi"]}'");
     $totalQuiz = $stmt->rowCount();
 
     $stmt = $db->prepare("SELECT quiz_id FROM d_quizmaster WHERE quiz_user = ?");
-    $stmt->execute([$_SESSION["user"]["id"]]);
+    $stmt->execute([$_SESSION["user"]["kadi"]]);
     $quizIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
     
     $studentCount = 0;
@@ -27,10 +27,10 @@
         $row = $stmt2->fetch(PDO::FETCH_ASSOC);
         $studentCount = $row['total'];
     }
-    $lastQuizs = $db->query("SELECT * FROM d_quizmaster WHERE quiz_user = '{$_SESSION["user"]["id"]}' order by quiz_id DESC LIMIT 5", PDO::FETCH_ASSOC);
+    $lastQuizs = $db->query("SELECT * FROM d_quizmaster WHERE quiz_user = '{$_SESSION["user"]["kadi"]}' order by quiz_id DESC LIMIT 5", PDO::FETCH_ASSOC);
 
 
-    $userId = $_SESSION["user"]["id"];
+    $userId = $_SESSION["user"]["kadi"];
     $totalCorrect = 0;
     $totalWrong = 0;
 
@@ -230,7 +230,7 @@
                                                 if ($now > $end)
                                                     $quizStatus = "Süresi Geçti";  
 
-                                                $stmt = $db->query("SELECT * FROM d_quizquestions WHERE qq_quizid = '{$row["quiz_id"]}' AND qq_userid = '{$_SESSION["user"]["id"]}' ");
+                                                $stmt = $db->query("SELECT * FROM d_quizquestions WHERE qq_quizid = '{$row["quiz_id"]}' AND qq_userid = '{$_SESSION["user"]["kadi"]}' ");
                                                 $questionCount = $stmt->rowCount();
                                                 if($questionCount != $row["quiz_questionqty"])
                                                     $quizStatus = "Soru Eklenmemiş (".$row["quiz_questionqty"]."/".$questionCount.")";
@@ -239,7 +239,7 @@
                                             </td>
                                             <td>
                                                 <?php $domain = $_SERVER['HTTP_HOST']; ?>
-                                                <a target="_blank" href="https://<?= $domain ?>/quiz?id=<?= $row['quiz_hash'] ?>">https://<?= $domain ?>/quiz?id=<?= $row['quiz_hash'] ?></a>
+                                                <a target="_blank" href="https://<?= $domain ?>/quiz/<?= $row['quiz_hash'] ?>">https://<?= $domain ?>/quiz/<?= $row['quiz_hash'] ?></a>
                                             </td>
                                         </tr>
                                     <?php endforeach ?>

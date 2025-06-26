@@ -8,7 +8,12 @@ $breadcrumb = [
 include("partials/header.php");
 include("middlewares/authController.php");
 
-$question = $db->query("SELECT * FROM d_questions WHERE q_id = '{$_GET["id"]}'")->fetch(PDO::FETCH_ASSOC);
+$sql = "SELECT * FROM d_questions WHERE q_id = :q_id";
+$params = [
+    ':q_id' => $_GET['id'],
+];
+$question = pdoQuery($db, $sql, $params)->fetch(PDO::FETCH_ASSOC);
+
 if ( !$question ){
     header("Location: index");
     exit();

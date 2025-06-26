@@ -52,7 +52,9 @@ if($location == ""){
         if ( $insert ){
             $stid = $db->lastInsertId();
 
-            $query = $db->query("SELECT * FROM d_quizquestions a inner join d_questions b ON a.qq_questionid = b.q_id WHERE a.qq_quizid = '{$quidID}'", PDO::FETCH_ASSOC);
+            $stmt = $db->prepare("SELECT * FROM d_quizquestions a INNER JOIN d_questions b ON a.qq_questionid = b.q_id WHERE a.qq_quizid = ?");
+            $stmt->execute([$quidID]);
+            $query = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ( $query->rowCount() ){
                 foreach( $query as $row ){
                     $key = $row["qq_questionid"];
@@ -104,7 +106,9 @@ if($location == ""){
         $quizID = $_POST["masterID"];
         $error = false;
 
-        $quizMaster = $db->query("SELECT * FROM d_quizmaster WHERE quiz_user = '{$_SESSION["user"]["id"]}' AND quiz_id = '{$quizID}'")->fetch(PDO::FETCH_ASSOC);
+        $stmt = $db->prepare("SELECT * FROM d_quizmaster WHERE quiz_user = ? AND quiz_id = ?");
+        $stmt->execute([$_SESSION["user"]["kadi"], $quizID]);
+        $quizMaster = $stmt->fetch(PDO::FETCH_ASSOC);
         if ( !$quizMaster ){
             array_push($messages,array(
                 "type"=> "error",
@@ -123,7 +127,8 @@ if($location == ""){
                 $location = "../deneme-duzenle?id=".$quizID;
             }
             else{
-                $delete = $db->exec("DELETE FROM d_quizquestions WHERE qq_quizid = '{$quizID}' AND qq_userid='{$_SESSION["user"]["id"]}'");
+                $stmt = $db->prepare("DELETE FROM d_quizquestions WHERE qq_quizid = ? AND qq_userid = ?");
+                $delete = $stmt->execute([$quizID, $_SESSION["user"]["kadi"]]);
                 if ($delete !== false) {
                     //
                     foreach($questions as $question){   
@@ -132,7 +137,7 @@ if($location == ""){
                         qq_userid = ?,
                         qq_questionid = ?");
                         $insert = $query->execute(array(
-                            $quizID, $_SESSION["user"]["id"], $question
+                            $quizID, $_SESSION["user"]["kadi"], $question
                         ));
                         if ( !$insert ){
                             $error = true;
@@ -172,7 +177,9 @@ if($location == ""){
     //Update
     if ($method == "upt") {
         $masterID = $_POST["masterID"];
-        $copyQuiz = $db->query("SELECT * FROM d_quizmaster WHERE quiz_id = '{$masterID}'")->fetch(PDO::FETCH_ASSOC);
+        $stmt = $db->prepare("SELECT * FROM d_quizmaster WHERE quiz_id = ?");
+        $stmt->execute([$masterID]);
+        $copyQuiz = $stmt->fetch(PDO::FETCH_ASSOC);
         date_default_timezone_set('Europe/Istanbul'); // Türkiye saatine göre ayarla
         $today = date("d/m/Y H:i");
         $todayplus = date("d/m/Y H:i", strtotime("+1 week"));
@@ -192,7 +199,7 @@ if($location == ""){
             quiz_hash = ?,
             quiz_time = ?");
             $insert = $query->execute(array(
-                $copyQuiz["quiz_class"], $_SESSION["user"]["id"], $copyQuiz["quiz_title"],
+                $copyQuiz["quiz_class"], $_SESSION["user"]["kadi"], $copyQuiz["quiz_title"],
                 $copyQuiz["quiz_maxuser"],$copyQuiz["quiz_questionqty"],$today,$todayplus,
                 1,0,generateUniqueUID($db), $copyQuiz["quiz_time"]
             ));
@@ -202,7 +209,9 @@ if($location == ""){
                 $newMaster = $db->query("SELECT * FROM d_quizmaster WHERE quiz_id = '{$last_id}'")->fetch(PDO::FETCH_ASSOC);
                 $error = false;
 
-                $getQuestions = $db->query("SELECT * FROM d_quizquestions WHERE qq_quizid = '{$copyQuiz["quiz_id"]}'", PDO::FETCH_ASSOC);
+                $stmt = $db->prepare("SELECT * FROM d_quizquestions WHERE qq_quizid = ?");
+                $stmt->execute([$copyQuiz["quiz_id"]]);
+                $getQuestions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if ( $getQuestions->rowCount() ){
                     foreach( $getQuestions as $row ){
                         $query = $db->prepare("INSERT INTO d_quizquestions SET
@@ -210,7 +219,7 @@ if($location == ""){
                         qq_userid = ?,
                         qq_questionid = ?");
                         $insert = $query->execute(array(
-                            $newMaster["quiz_id"], $_SESSION["user"]["id"], $row["qq_questionid"]
+                            $newMaster["quiz_id"], $_SESSION["user"]["kadi"], $row["qq_questionid"]
                         ));
                         if(!$insert){
                             $false = true;
