@@ -55,7 +55,7 @@ if($location == ""){
             $stmt = $db->prepare("SELECT * FROM d_quizquestions a INNER JOIN d_questions b ON a.qq_questionid = b.q_id WHERE a.qq_quizid = ?");
             $stmt->execute([$quidID]);
             $query = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if ( $query->rowCount() ){
+            if (count($questions) ){
                 foreach( $query as $row ){
                     $key = $row["qq_questionid"];
                     $answerTrue = 0;
@@ -212,17 +212,17 @@ if($location == ""){
                 $stmt = $db->prepare("SELECT * FROM d_quizquestions WHERE qq_quizid = ?");
                 $stmt->execute([$copyQuiz["quiz_id"]]);
                 $getQuestions = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                if ( $getQuestions->rowCount() ){
-                    foreach( $getQuestions as $row ){
+                if (count($getQuestions)) {
+                    foreach ($getQuestions as $row) {
                         $query = $db->prepare("INSERT INTO d_quizquestions SET
-                        qq_quizid = ?,
-                        qq_userid = ?,
-                        qq_questionid = ?");
+                            qq_quizid = ?,
+                            qq_userid = ?,
+                            qq_questionid = ?");
                         $insert = $query->execute(array(
                             $newMaster["quiz_id"], $_SESSION["user"]["kadi"], $row["qq_questionid"]
                         ));
-                        if(!$insert){
-                            $false = true;
+                        if (!$insert) {
+                            $error = true;
                         }
                     }
                 }
