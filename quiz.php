@@ -205,31 +205,36 @@ if (!isset($_GET["hashx"])) {
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js" integrity="sha512-Zq9o+E00xhhR/7vJ49mxFNJ0KQw1E1TMWkPTxrWcnpfEFDEXgUiwJHIKit93EW/XxE31HSI5GEOW06G6BF1AtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        let data=[];
+        let data = [];
         let quizID = 0;
-        
+
         <?php if($quizMaster != null): ?>
-            quizID = "<?= $quizMaster["quiz_id"] ?>"
+            quizID = <?= json_encode($quizMaster["quiz_id"]) ?>;
         <?php endif; ?>
 
         <?php
-        $query = $db->query("SELECT b.q_id,b.q_question,b.q_answer_a,b.q_answer_b,b.q_answer_c,b.q_answer_d,b.q_answerimage FROM d_quizquestions a inner join d_questions b ON a.qq_questionid = b.q_id WHERE a.qq_quizid = '{$quizMaster["quiz_id"]}' ORDER BY a.qq_id ASC", PDO::FETCH_ASSOC);
-        if ( $query->rowCount() ):
-            foreach( $query as $row ): ?>
+        $query = $db->query("SELECT b.q_id,b.q_question,b.q_answer_a,b.q_answer_b,b.q_answer_c,b.q_answer_d,b.q_answerimage 
+            FROM d_quizquestions a 
+            INNER JOIN d_questions b ON a.qq_questionid = b.q_id 
+            WHERE a.qq_quizid = '{$quizMaster["quiz_id"]}' 
+            ORDER BY a.qq_id ASC", PDO::FETCH_ASSOC);
+
+        if ($query->rowCount()):
+            foreach($query as $row): ?>
                 data.push({
-                    "questionID":"<?= $row["q_id"] ?>",
-                    "questionImage":"<?= $row["q_question"] ?>",
-                    "answers":[
-                        {"answer_a":"<?= $row["q_answer_a"] ?>"},
-                        {"answer_b":"<?= $row["q_answer_b"] ?>"},
-                        {"answer_c":"<?= $row["q_answer_c"] ?>"},
-                        {"answer_d":"<?= $row["q_answer_d"] ?>"},
+                    questionID: <?= json_encode($row["q_id"]) ?>,
+                    questionImage: <?= json_encode($row["q_question"]) ?>,
+                    answers: [
+                        { answer_a: <?= json_encode($row["q_answer_a"]) ?> },
+                        { answer_b: <?= json_encode($row["q_answer_b"]) ?> },
+                        { answer_c: <?= json_encode($row["q_answer_c"]) ?> },
+                        { answer_d: <?= json_encode($row["q_answer_d"]) ?> },
                         { answerImage: <?= $row["q_answerimage"] == "1" ? "true" : "false" ?> }
                     ],
-                    "answer":null
-                })
-            <?php endforeach; ?>
-        <?php endif; ?>  
+                    answer: null
+                });
+            <?php endforeach;
+        endif; ?>
     </script>
     <script src="/assets/js/quiz.js"></script>
 
