@@ -1,16 +1,26 @@
-<?php 
-$messages = array(); 
+<?php
+$messages = array();
 session_start();
 ob_start();
 
+// Oturumu temizle
 unset($_SESSION["login"]);
-array_push($messages,array(
-    "type"=> "success",
-    "title"=> "Başarılı",
-    "message"=> "Başarıyla çıkış yapıldı."
+unset($_SESSION["user"]);
+
+// Cookie'yi sil
+if (isset($_COOKIE['autologin_token'])) {
+    setcookie('autologin_token', '', time() - 3600, '/', '.ortaokulingilizce.net'); // domain canlı siteye göre ayarla
+    unset($_COOKIE['autologin_token']);
+}
+
+array_push($messages, array(
+    "type" => "success",
+    "title" => "Başarılı",
+    "message" => "Başarıyla çıkış yapıldı."
 ));
 $_SESSION["messages"] = $messages;
-header("Location: ../index");
 
+// Yönlendir
+header("Location: https://ortaokulingilizce.net/cikis");
 ob_end_flush();
 ?>

@@ -59,6 +59,7 @@ if($location == ""){
         $true = $_POST['true'];
         $active = $_POST['active'];
         $answerImage = $_POST['answerimage'];
+        $level = $_POST['level'];
     
         // Soru görselini yükle
         if (isset($_FILES['question']) && $_FILES['question']['error'] === 0) {
@@ -88,16 +89,18 @@ if($location == ""){
         // INSERT işlemi (PDO örneği)
         $stmt = $db->prepare("
             INSERT INTO d_questions (
-                q_class, q_category, q_user, q_question, q_questionvideo, 
+                q_class, q_category, q_user, q_question, q_desc, q_level, q_questionvideo, 
                 q_answer_a, q_answer_b, q_answer_c, q_answer_d,
-                q_true, q_active, q_answerimage
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                q_true, q_active, q_exam, q_answerimage
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         $inserted = $stmt->execute([
             $class,
             $category,
             $_SESSION["user"]["kadi"],
             $questionImage,
+            $_POST["desc"] == "" ? null : $_POST["desc"],
+            $_POST["qlevel"] == "" ? null : $_POST["qlevel"],
             $_POST["video"] == "" ? null : $_POST["video"],
             $answerA,
             $answerB,
@@ -105,6 +108,7 @@ if($location == ""){
             $answerD,
             $true,
             $active,
+            $level,
             $answerImage
         ]);
 
@@ -183,7 +187,7 @@ if($location == ""){
         // UPDATE işlemi
         $stmt = $db->prepare("
             UPDATE d_questions SET
-                q_class = ?, q_category = ?, q_question = ?, q_questionvideo = ?, 
+                q_class = ?, q_category = ?, q_question = ?, q_desc = ?, q_level = ?, q_questionvideo = ?, 
                 q_answer_a = ?, q_answer_b = ?, q_answer_c = ?, q_answer_d = ?,
                 q_true = ?, q_active = ?, q_answerimage = ?
             WHERE q_id = ?
@@ -193,6 +197,8 @@ if($location == ""){
             $class,
             $category,
             $questionImage,
+            $_POST["desc"] == "" ? null : $_POST["desc"],
+            $_POST["qlevel"] == "" ? null : $_POST["qlevel"],
             $_POST["video"] == "" ? null : $_POST["video"],
             $answerA,
             $answerB,

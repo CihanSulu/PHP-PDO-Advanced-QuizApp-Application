@@ -9,7 +9,7 @@ if (!isset($_POST["page"]) || !isset($_POST["category"])) {
 }
 
 $categoryID = $_POST["category"];
-$countQuery = $db->prepare("SELECT COUNT(*) as total FROM d_questions WHERE FIND_IN_SET(:catID, q_category)");
+$countQuery = $db->prepare("SELECT COUNT(*) as total FROM d_questions WHERE FIND_IN_SET(:catID, q_category) AND q_exam = 1");
 $countQuery->execute(['catID' => $categoryID]);
 $totalQuestions = $countQuery->fetch(PDO::FETCH_ASSOC)['total'];
 
@@ -20,7 +20,7 @@ $currentPage = $_POST["page"];
 $currentPage = max(1, min($currentPage, $totalPages)); // güvenlik
 $offset = ($currentPage - 1) * $perPage;
 
-$query = $db->prepare("SELECT * FROM d_questions WHERE FIND_IN_SET(:catID, q_category) ORDER BY q_id DESC LIMIT :limit OFFSET :offset");
+$query = $db->prepare("SELECT * FROM d_questions WHERE FIND_IN_SET(:catID, q_category) AND q_exam = 1 ORDER BY q_id DESC LIMIT :limit OFFSET :offset");
 $query->bindValue(':catID', $categoryID, PDO::PARAM_STR);
 $query->bindValue(':limit', $perPage, PDO::PARAM_INT);
 $query->bindValue(':offset', $offset, PDO::PARAM_INT);
@@ -39,22 +39,23 @@ $questions = $query->fetchAll(PDO::FETCH_ASSOC);
                 <div class="card">
                     <div class="card-body">
                         <img src="assets/questions/<?= $row["q_question"] ?>" class="img-fluid" alt="Ortaokul İngilizce">
+                        <span class="m-0 mt-2 badge badge-primary"><?= $row["q_desc"] ?></span>
                         <div>
-                            <?php
-                            if ($row["q_level"] == "0") {
-                                $levelText = "Kolay";
-                                $color = "success";
-                            } elseif ($row["q_level"] == "1") {
-                                $levelText = "Orta";
-                                $color = "warning";
-                            } elseif ($row["q_level"] == "2") {
-                                $levelText = "Zor";
-                                $color = "danger";
-                            } else {
-                                $levelText = "Belirtilmemiş";
-                            }
+                            <?php 
+                                if($row["q_level"] == "0") {
+                                    $levelText = "Kolay";
+                                    $color = "success";
+                                } elseif($row["q_level"] == "1") {
+                                    $levelText = "Orta";
+                                    $color = "warning";
+                                } elseif($row["q_level"] == "2") {
+                                    $levelText = "Zor";
+                                    $color = "danger";
+                                } else {
+                                    $levelText = "Belirtilmemiş";
+                                }
                             ?>
-                            <?php if ($levelText != "Belirtilmemiş"): ?>
+                            <?php if($levelText != "Belirtilmemiş"): ?>
                                 <span class="m-0 mt-2 badge badge-<?= $color ?>">Zorluk: <?= $levelText ?></span>
                             <?php endif; ?>
                         </div>

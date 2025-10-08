@@ -1,0 +1,18 @@
+{
+    "name": "msi/deneme",
+    "autoload": {
+        "psr-4": {
+            "Msi\\Deneme\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Cihan",
+            "email": "cihansulu1@gmail.com"
+        }
+    ],
+    "require": {
+        "dompdf/dompdf": "^3.1",
+        "phpoffice/phpword": "^1.3"
+    }
+}

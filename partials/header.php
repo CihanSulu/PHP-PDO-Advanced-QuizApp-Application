@@ -155,16 +155,24 @@
 
                         <li class="menu-title">Menü</li>
                         <li><a href="/"><i class="mdi mdi-monitor"></i><span>Anasayfa</span></a></li>
+                        
+                        <li class="menu-title">Exam Center</li>
+                        <li><a href="sinavlar"><i class="mdi mdi-pen"></i><span>Hazır Sınavlar</span></a></li>
+                        <li><a href="sinav-olustur"><i class="mdi mdi-plus"></i><span>Sınav Oluştur</span></a></li>
+                        <li><a href="sinavlarim"><i class="mdi mdi-notebook"></i><span>Sınavlarım</span></a></li>
+
+                        <li class="menu-title">Deneme Sınavı</li>
                         <li><a href="denemeler"><i class="mdi mdi-book-open-page-variant"></i><span>Hazır Deneme Sınavları</span></a></li>
                         <li><a href="deneme-olustur"><i class="mdi mdi-apps"></i><span>Deneme Sınavı Oluştur</span></a></li>
                         <li><a href="denemelerim"><i class="mdi mdi-format-list-bulleted-type"></i><span>Deneme Sınavlarım</span></a></li>
                         <li><a href="deneme-sonuclari"><i class="mdi mdi-poll"></i><span>Deneme Sınav Analizi</span></a></li>
                         <!--  <li><a href="deneme-ayarlari"><i class="mdi mdi-lock-outline"></i><span>Deneme Ayarları</span></a></li>-->
                         
+
                         <?php if($_SESSION["user"]["yetki"] == "admin"): ?>
                         <li class="menu-title">Admin</li>
                             <li>
-                                <a href="javascript: void(0);"><i class="mdi mdi-buffer"></i><span>Deneme Soruları</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                                <a href="javascript: void(0);"><i class="mdi mdi-buffer"></i><span>Deneme-Yazılı Soruları</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li><a href="sorular">Sorular</a></li>
                                     <li><a href="soru-olustur">Soru Oluştur</a></li>

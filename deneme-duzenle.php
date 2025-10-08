@@ -157,6 +157,25 @@ $questions = $questionsPdo->fetchAll(); // Tüm sonuçları diziye al
                                             <div class="card">
                                                 <div class="card-body">
                                                     <img src="assets/questions/<?= $row["q_question"] ?>" class="img-fluid" alt="Ortaokul İngilizce">
+                                                    <div>
+                                                        <?php
+                                                            if ($row["q_level"] == "0") {
+                                                                $levelText = "Kolay";
+                                                                $color = "success";
+                                                            } elseif ($row["q_level"] == "1") {
+                                                                $levelText = "Orta";
+                                                                $color = "warning";
+                                                            } elseif ($row["q_level"] == "2") {
+                                                                $levelText = "Zor";
+                                                                $color = "danger";
+                                                            } else {
+                                                                $levelText = "Belirtilmemiş";
+                                                            }
+                                                        ?>
+                                                        <?php if ($levelText != "Belirtilmemiş"): ?>
+                                                            <span class="m-0 mt-2 badge badge-<?= $color ?>">Zorluk: <?= $levelText ?></span>
+                                                        <?php endif; ?>
+                                                    </div>
                                                 </div>
                                                 <div class="card-footer bg-white border-0">
                                                     <button class="btn btn-pink w-100 changeButton" data-image="<?= $row["q_question"] ?>" data-question="<?= $row["q_id"] ?>">Soruyu Seç</button>

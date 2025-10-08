@@ -9,8 +9,14 @@
     $stmt = $db->query("SELECT * FROM d_quizmaster WHERE quiz_public = '1'");
     $totalAlreadyQuiz = $stmt->rowCount();
 
+    $stmt = $db->query("SELECT * FROM d_exammaster WHERE exam_public = '1'");
+    $totalAlreadyExam = $stmt->rowCount();
+
     $stmt = $db->query("SELECT * FROM d_quizmaster WHERE quiz_user = '{$_SESSION["user"]["kadi"]}'");
     $totalQuiz = $stmt->rowCount();
+
+    $stmt = $db->query("SELECT * FROM d_exammaster WHERE exam_user = '{$_SESSION["user"]["kadi"]}'");
+    $totalExam = $stmt->rowCount();
 
     $stmt = $db->prepare("SELECT quiz_id FROM d_quizmaster WHERE quiz_user = ?");
     $stmt->execute([$_SESSION["user"]["kadi"]]);
@@ -137,6 +143,36 @@
                     </div><!--end card-body-->
                 </div><!--end card-->
             </div><!--end col-->
+
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body mb-0">
+                        <div class="row">
+                            <div class="col-8 align-self-center">
+                                <div class="">
+                                    <h4 class="mt-0 header-title">Hazır Sınav Sayısı</h4>
+                                    <h2 class="mt-0 font-weight-bold text-dark"><?= $totalAlreadyExam ?></h2>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!--end col-->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body mb-0">
+                        <div class="row">
+                            <div class="col-8 align-self-center">
+                                <div class="">
+                                    <h4 class="mt-0 header-title">Toplam Sınavlarım</h4>
+                                    <h2 class="mt-0 font-weight-bold text-dark"><?= $totalExam ?></h2>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!--end col-->
+            
 
 
             <!-- Admin -->

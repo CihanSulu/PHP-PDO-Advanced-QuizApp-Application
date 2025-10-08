@@ -2,6 +2,29 @@
 session_start();
 ob_start();
 
+if (isset($_COOKIE['autologin_token'])) {
+    include("./config/config_hash.php");
+    $token = $_COOKIE['autologin_token'];
+    $stmt = $db->prepare("SELECT * FROM kullanicilar WHERE autologin_token = :token");
+    $stmt->execute([':token' => $token]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user) {
+        $_SESSION["login"] = true;
+        $_SESSION["user"] = array(
+            "id" => $user["id"],
+            "kadi" => $user["kadi"],
+            "yetki" => $user["yetki"],
+            "email" => $user["email"],
+            "uyelikbaslangic" => $user["uyelikbaslangic"],
+            "uyelikbitis" => $user["uyelikbitis"]
+        );
+        header("Location: ../dashboard");
+        die();
+    }
+}
+
+
 if (isset($_SESSION["login"]) && $_SESSION["login"] === true) {
     header("Location: dashboard");
     exit();

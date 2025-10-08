@@ -36,7 +36,7 @@ if ( !$question ){
                                 <div class="row">
 
                                     <input type="hidden" name="id" value="<?= $question["q_id"] ?>">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="example-text-input">Soru Sınıfı</label>
                                             <select class="form-control" name="class" id="stClass" required="">
@@ -47,7 +47,7 @@ if ( !$question ){
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="example-text-input">Soru Kategorisi</label>
                                             <select class="select2 mb-3 select2-multiple" multiple="multiple" data-placeholder="Seçiniz" id="stCategory" name="category[]" required>
@@ -59,6 +59,16 @@ if ( !$question ){
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="example-text-input">Soru Bölümü</label>
+                                            <select class="form-control" name="level" id="stLevel" required="">
+                                                <option value="0" <?= $question["q_exam"] == "0" ? "selected":"" ?>>Deneme</option>
+                                                <option value="1" <?= $question["q_exam"] == "1" ? "selected" : "" ?>>Yazılı</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
 
                                     <div class="col-lg-12">
                                         <div class="form-group">
@@ -69,7 +79,7 @@ if ( !$question ){
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 ddnone">
                                         <div class="form-group">
                                             <div class="checkbox" style="margin-left:-7px">
                                                 <div class="custom-control custom-checkbox">
@@ -80,7 +90,7 @@ if ( !$question ){
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-3 ddnone siklar">
                                         <div class="form-group">
                                             <?php if($question["q_answerimage"] == "1"): ?>
                                                 <div><img src="assets/answers/<?= $question["q_answer_a"] ?>" class="img-fluid answerimages" style="height:50px"></div>
@@ -89,7 +99,7 @@ if ( !$question ){
                                             <input class="form-control answers" type="text" name="answer_a" <?= ($question["q_answerimage"] == "0") ? "value='".$question["q_answer_a"]."'":"" ?> id="example-text-input">
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-3 ddnone siklar">
                                         <div class="form-group">
                                             <?php if($question["q_answerimage"] == "1"): ?>
                                                 <div><img src="assets/answers/<?= $question["q_answer_b"] ?>" class="img-fluid answerimages" style="height:50px"></div>
@@ -98,7 +108,7 @@ if ( !$question ){
                                             <input class="form-control answers" type="text" name="answer_b" <?= ($question["q_answerimage"] == "0") ? "value='".$question["q_answer_b"]."'":"" ?> id="example-text-input">
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-3 ddnone siklar">
                                         <div class="form-group">
                                             <?php if($question["q_answerimage"] == "1"): ?>
                                                 <div><img src="assets/answers/<?= $question["q_answer_c"] ?>" class="img-fluid answerimages" style="height:50px"></div>
@@ -107,7 +117,7 @@ if ( !$question ){
                                             <input class="form-control answers" type="text" name="answer_c" <?= ($question["q_answerimage"] == "0") ? "value='".$question["q_answer_c"]."'":"" ?> id="example-text-input">
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-3 ddnone siklar">
                                         <div class="form-group">
                                             <?php if($question["q_answerimage"] == "1"): ?>
                                                 <div><img src="assets/answers/<?= $question["q_answer_d"] ?>" class="img-fluid answerimages" style="height:50px"></div>
@@ -117,7 +127,7 @@ if ( !$question ){
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 ddnone">
                                         <div class="form-group">
                                             <label for="example-text-input">Doğru Şık</label>
                                             <select class="form-control" name="true" required="">
@@ -128,7 +138,7 @@ if ( !$question ){
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 ddnone2">
                                         <div class="form-group">
                                             <label for="example-text-input">Soru Aktifliği</label>
                                             <select class="form-control" name="active" required="">
@@ -139,8 +149,24 @@ if ( !$question ){
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-group">
+                                            <label for="example-text-input">Soru Zorluğu</label>
+                                            <select class="form-control" name="qlevel" required="">
+                                                <option value="0" <?= ($question["q_level"] == "0" ? "selected" : "") ?>>Kolay</option>
+                                                <option value="1" <?= ($question["q_level"] == "1" ? "selected" : "") ?>>Orta</option>
+                                                <option value="2" <?= ($question["q_level"] == "2" ? "selected" : "") ?>>Zor</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
                                             <label for="example-text-input">Soru Çözüm Videosu</label>
                                             <input class="form-control answers" value="<?= $question["q_questionvideo"] ?>" type="text" name="video" id="example-text-input" placeholder="Videolu Çözüm Linki">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 ddnone3" style="display:none">
+                                        <div class="form-group">
+                                            <label for="example-text-input">Kazanım</label>
+                                            <input class="form-control" type="text" name="desc" value="<?= $question["q_desc"] ?>" id="example-text-input" placeholder="Kazanım">
                                         </div>
                                     </div>
 
@@ -166,3 +192,22 @@ if ( !$question ){
             $('#stCategory').val(selectedCategories).trigger('change');
         });
     </script>
+    <script>
+        $(document).ready(function(){
+            $("#stLevel").change(function(){
+                var changed = $(this).val();
+                if(changed === "1"){ // string karşılaştırması
+                    $(".ddnone").hide();
+                    $(".ddnone3").show();
+                    $(".ddnone2").removeClass("col-lg-6").addClass("col-lg-12");
+                    $(".siklar").find("input").prop('required', false);
+                } else {
+                    $(".ddnone").show();
+                    $(".ddnone3").hide();
+                    $(".ddnone2").removeClass("col-lg-12").addClass("col-lg-6");
+                    $(".siklar").find("input").prop('required', true);
+                }
+            });
+            $("#stLevel").trigger('change');
+        });
+   </script>

@@ -24,7 +24,7 @@ include("middlewares/authController.php");
                             <form action="controllers/questionController?method=ins" method="post" enctype="multipart/form-data">
                                 <div class="row">
 
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="example-text-input">Soru Sınıfı</label>
                                             <select class="form-control" name="class" id="stClass" required="">
@@ -36,11 +36,20 @@ include("middlewares/authController.php");
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="example-text-input">Soru Kategorisi</label>
                                             <select class="select2 mb-3 select2-multiple" multiple="multiple" data-placeholder="Seçiniz" id="stCategory" name="category[]" required>
                                                 <option value="">Sınıf Seçiniz</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="example-text-input">Soru Bölümü</label>
+                                            <select class="form-control" name="level" id="stLevel" required="">
+                                                <option value="0">Deneme</option>
+                                                <option value="1">Yazılı</option>
                                             </select>
                                         </div>
                                     </div>
@@ -54,7 +63,7 @@ include("middlewares/authController.php");
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12 ddnone">
                                         <div class="form-group">
                                             <div class="checkbox" style="margin-left:-7px">
                                                 <div class="custom-control custom-checkbox">
@@ -65,32 +74,32 @@ include("middlewares/authController.php");
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-3 ddnone siklar">
                                         <div class="form-group">
                                             <label for="example-text-input">A Şıkkı</label>
                                             <input class="form-control answers" type="text" name="answer_a" id="example-text-input" required="">
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-3 ddnone siklar">
                                         <div class="form-group">
                                             <label for="example-text-input">B Şıkkı</label>
                                             <input class="form-control answers" type="text" name="answer_b" id="example-text-input" required="">
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-3 ddnone siklar">
                                         <div class="form-group">
                                             <label for="example-text-input">C Şıkkı</label>
                                             <input class="form-control answers" type="text" name="answer_c" id="example-text-input" required="">
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-3 ddnone siklar">
                                         <div class="form-group">
                                             <label for="example-text-input">D Şıkkı</label>
                                             <input class="form-control answers" type="text" name="answer_d" id="example-text-input" required="">
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 ddnone">
                                         <div class="form-group">
                                             <label for="example-text-input">Doğru Şık</label>
                                             <select class="form-control" name="true" required="">
@@ -101,7 +110,7 @@ include("middlewares/authController.php");
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 ddnone2">
                                         <div class="form-group">
                                             <label for="example-text-input">Soru Aktifliği</label>
                                             <select class="form-control" name="active" required="">
@@ -112,8 +121,24 @@ include("middlewares/authController.php");
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-group">
+                                            <label for="example-text-input">Soru Zorluğu</label>
+                                            <select class="form-control" name="qlevel" required="">
+                                                <option value="0">Kolay</option>
+                                                <option value="1">Orta</option>
+                                                <option value="2">Zor</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
                                             <label for="example-text-input">Soru Çözüm Videosu</label>
                                             <input class="form-control answers" type="text" name="video" id="example-text-input" placeholder="Videolu Çözüm Linki">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 ddnone3" style="display:none">
+                                        <div class="form-group">
+                                            <label for="example-text-input">Kazanım</label>
+                                            <input class="form-control" type="text" name="desc" id="example-text-input" placeholder="Kazanım">
                                         </div>
                                     </div>
 
@@ -132,3 +157,22 @@ include("middlewares/authController.php");
     </div><!-- container -->
 
    <?php include("partials/footer.php"); ?>
+   <script>
+    $("#stLevel").change(function(){
+        var changed = $(this).val();
+        if(changed == "1"){
+            $(".ddnone").hide();
+            $(".ddnone3").show();
+            $(".ddnone2").removeClass("col-lg-6");
+            $(".ddnone2").addClass("col-lg-12");
+            $(".siklar").find("input").prop('required',false);
+        }
+        else{
+            $(".ddnone").show();
+            $(".ddnone3").hide();
+            $(".ddnone2").removeClass("col-lg-12");
+            $(".ddnone2").addClass("col-lg-6");
+            $(".siklar").find("input").prop('required',true);
+        }
+    })
+   </script>
